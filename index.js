@@ -24,6 +24,7 @@ async function run() {
         await client.connect();
         const database = client.db("manufacturer_user")
         const toolscollection = database.collection("tools");
+        const reviewscollection = database.collection("review");
 
         // Inventory API
         app.get('/tools', async (req, res) => {
@@ -38,6 +39,19 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const toolsItem = await toolscollection.findOne(query);
             res.send(toolsItem);
+        });
+
+        app.get('/reviews', async (req, res) => {
+            const query = {};
+            const cursor = reviewscollection.find(query);
+            const review = await cursor.toArray();
+            res.send(review);
+        });
+
+        app.post('/reviews', async (req, res) => {
+            const newReview = req.body;
+            const result = await reviewscollection.insertOne(newReview);
+            res.send(result);
         });
 
 

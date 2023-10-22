@@ -23,11 +23,12 @@ async function run() {
   try {
     await client.connect();
     const database = client.db("manufacturer_user");
+    const database2 = client.db("Wse server");
     const toolscollection = database.collection("tools");
     const reviewscollection = database.collection("review");
     const profilecollection = database.collection("profileInfo");
-    const jsAssignmentCollection = database.collection("Js Assignment");
-    const reviewCollection = database.collection("Review");
+    const jsAssignmentCollection = database2.collection("Js Assignment");
+    const reviewCollection = database2.collection("Review");
 
     // Inventory API
     app.get("/tools", async (req, res) => {
@@ -104,7 +105,7 @@ async function run() {
       const result = await jsAssignmentCollection.insertOne(jsAssignment);
       res.send(result);
     });
-    
+
   } finally {
     //   await client.close();
   }
